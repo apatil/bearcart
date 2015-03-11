@@ -95,13 +95,13 @@
               return result;
             };
           };
-        $(window).on('resize', throttle(100, function(){
+        $(window).on('resize', throttle(function(){
           graph.configure({
             width: window.innerWidth - 20,
             height: window.innerHeight - 20
           });
           graph.render();
-        }));
+        }, 100));
         {% endif %}
 
     })();
