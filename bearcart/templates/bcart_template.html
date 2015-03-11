@@ -60,9 +60,16 @@
 
         {{ slider }}
 
-        graph.render();
-
         {% if auto_resize %}
+        var resizer = function(){
+          graph.configure({
+            width: window.innerWidth - 20,
+            height: window.innerHeight - 20
+          });
+          graph.render();
+        };
+        resizer();
+
         // Underscore's throttle
         var throttle = function(func, wait) {
             var context, args, result;
@@ -95,13 +102,9 @@
               return result;
             };
           };
-        $(window).on('resize', throttle(function(){
-          graph.configure({
-            width: window.innerWidth - 20,
-            height: window.innerHeight - 20
-          });
-          graph.render();
-        }, 100));
+        $(window).on('resize', throttle(resizer, 100));
+        {% else %}
+        graph.render();
         {% endif %}
 
     })();
