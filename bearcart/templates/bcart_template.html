@@ -76,7 +76,7 @@
               if (!timeout) context = args = null;
             };
             return function() {
-              var now = new Date.getTime(());
+              var now = new Date.getTime();
               if (!previous && options.leading === false) previous = now;
               var remaining = wait - (now - previous);
               context = this;
