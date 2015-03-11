@@ -30,6 +30,23 @@
       float:left;
       margin-top: : 100px;
   }
+
+  .rickshaw-y-axis {
+    width: 10%;
+  }
+
+  .rickshaw-chart.rickshaw_graph {
+    width: 70%;
+  }
+
+  .rickshaw-chart.rickshaw_graph svg {
+    width: 100%;
+  }
+
+  .rickshaw-legend.rickshaw_legend {
+    width: 12%;
+  }
+
 </style>
 </head>
 <body>
@@ -67,6 +84,13 @@
             height: window.innerHeight - 20
           });
           graph.render();
+          var newWidth = innerWidth/10, $chartSvg = $(".rickshaw-chart.rickshaw_graph svg");
+          $(".rickshaw-chart.rickshaw_graph .detail").css('left', '100%');
+          $(".rickshaw-slider").width($chartSvg.width());
+          // re-setting width for y_axis container and position it appropriately
+          $("#y_axis").width(newWidth);
+          $(".rickshaw_graph.y_axis").css('left', (newWidth - 300) + "px");
+
         };
         resizer();
 
