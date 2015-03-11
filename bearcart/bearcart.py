@@ -262,7 +262,8 @@ class Chart(object):
                                    'chart_id': self.chart_id,
                                    'y_axis_id': self.y_axis_id,
                                    'legend_id': self.legend_id,
-                                   'slider_id': self.slider_id})
+                                   'slider_id': self.slider_id,
+                                   'auto_resize': self.auto_resize})
 
         self._build_graph()
         html = self.env.get_template('bcart_template.html')
@@ -291,7 +292,8 @@ class Chart(object):
                                    'y_axis_id': self.y_axis_id,
                                    'legend_id': self.legend_id,
                                    'slider_id': self.slider_id,
-                                   'export_json': json.dumps(self.json_data)})
+                                   'export_json': json.dumps(self.json_data),
+                                   'auto_resize': self.auto_resize})
 
         self._build_graph()
         html = self.env.get_template('ipynb_repr.html')
