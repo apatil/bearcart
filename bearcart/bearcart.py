@@ -41,7 +41,7 @@ class Chart(object):
     '''Visualize Pandas Timeseries with Rickshaw.js'''
 
     def __init__(self, data=None, width=750, height=400, plt_type='line',
-                 colors=None, x_time=True, y_zero=False, **kwargs):
+                 colors=None, x_time=True, y_zero=False, auto_resize=False, **kwargs):
         '''Generate a Rickshaw time series visualization with Pandas
         Series and DataFrames.
 
@@ -75,6 +75,9 @@ class Chart(object):
         y_zero: boolean, default False
             The y-axis defaults to auto scaling. Pass True to set the min
             y-axis value to 0.
+        auto_resize: boolean, default False
+            Whether the size of the chart should respond to the size of the enclosing
+            window.
         kwargs:
             Keyword arguments that, if passed as False, will disable the
             following components: x_axis, y_axis, hover, legend, slider
@@ -99,6 +102,8 @@ class Chart(object):
                          'legend': True, 'slider': True}
 
         self.env = ENV
+
+        self.auto_resize = auto_resize
 
         # Colors need to be js strings
         if colors:
@@ -136,7 +141,8 @@ class Chart(object):
                                     'chart_id': self.chart_id,
                                     'y_axis_id': self.y_axis_id,
                                     'legend_id': self.legend_id,
-                                    'slider_id': self.slider_id})
+                                    'slider_id': self.slider_id,
+                                    'auto_resize': self.auto_resize})
                 temp = self.env.get_template(att + '.js')
                 self.template_vars.update({att: temp.render(render_vars)})
 

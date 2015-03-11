@@ -61,6 +61,16 @@
 
         graph.render();
 
+        {% if auto_resize %}
+        $(window).on('resize', $.throttle(100, function(){
+          graph.configure({
+            width: window.innerWidth - 20,
+            height: window.innerHeight - 20
+          });
+          graph.render();
+        }));
+        {% endif %}
+
     })();
 
   });
