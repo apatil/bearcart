@@ -3,7 +3,6 @@
   <link rel="stylesheet" href="{{ css_path }}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-throttle-debounce/1.1/jquery.ba-throttle-debounce.min.js"></script>
   <script src="//code.jquery.com/jquery-1.9.1.js"></script>
   <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
@@ -64,7 +63,39 @@
         graph.render();
 
         {% if auto_resize %}
-        $(window).on('resize', $.throttle(100, function(){
+        // Underscore's throttle
+        var throttle = function(func, wait) {
+            var context, args, result;
+            var timeout = null;
+            var previous = 0;
+            var options = {};
+            var later = function() {
+              previous = options.leading === false ? 0 : new Date.getTime();
+              timeout = null;
+              result = func.apply(context, args);
+              if (!timeout) context = args = null;
+            };
+            return function() {
+              var now = new Date.getTime(());
+              if (!previous && options.leading === false) previous = now;
+              var remaining = wait - (now - previous);
+              context = this;
+              args = arguments;
+              if (remaining <= 0 || remaining > wait) {
+                if (timeout) {
+                  clearTimeout(timeout);
+                  timeout = null;
+                }
+                previous = now;
+                result = func.apply(context, args);
+                if (!timeout) context = args = null;
+              } else if (!timeout && options.trailing !== false) {
+                timeout = setTimeout(later, remaining);
+              }
+              return result;
+            };
+          };
+        $(window).on('resize', throttle(100, function(){
           graph.configure({
             width: window.innerWidth - 20,
             height: window.innerHeight - 20
