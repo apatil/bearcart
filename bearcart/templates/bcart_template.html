@@ -89,8 +89,8 @@
           $(".rickshaw-slider").width($chartSvg.width());
           // re-setting width for y_axis container and position it appropriately
           $("#y_axis").width(newWidth);
+          $("#y_axis").left("-160px");
           $(".rickshaw_graph.y_axis").css('left', (newWidth - 300) + "px");
-
         };
         resizer();
 
